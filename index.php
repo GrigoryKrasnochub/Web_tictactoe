@@ -7,7 +7,8 @@ session_start();
 
 //Присвоили переменной экземпляр
 $game = isset($_SESSION['game'])? $_SESSION['game']: null;
-
+//Также для счетчика победок
+$win_number = isset($_SESSION['win'])? $_SESSION['win']: "0:0";
 //Сделали экземпляр, если в сессии было пусто
 if(!$game || !is_object($game)) {
     $game = new game();
@@ -25,9 +26,15 @@ if(isset($params['action'])) {
         // Пользователь решил начать новую игру.
         $game = new game();
     }
+    if($action =='reset_score'){
+        //сброс счета
+        $win_number="0:0";
+    }
 }
 //Записали в сессию
 $_SESSION['game'] = $game;
+
+$_SESSION['win'] = $win_number;
 ?>
 
 <html lang="eng">
@@ -47,7 +54,7 @@ $tableSize=$game->GetFieldSize();
 $gameField=$game->GetGameField();
 
 $userHint=$game->GetCurrentTurn();
-
+$game->UpdateWinCounter();
 $game->ShowWinner();
 echo "<h1>$userHint</h1>";
 
@@ -78,6 +85,7 @@ echo '</table>';
 <input type="submit" value="Make turn">
 </form>
 <a href="?action=restart">Restart</a>
+<a href="?action=reset_score">Reset Score</a>
 
 </div>
 </div>

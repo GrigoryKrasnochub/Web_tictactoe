@@ -24,6 +24,8 @@ class game
     private  $conclusionSentence;
     // стиль для зачеркивания
     private  $crossStyle;
+    // Был ли счетчик обновлен
+    private $isUpdated=false;
 
 
     //Делаем ход пользователя
@@ -32,7 +34,7 @@ class game
         $this->gameField [$x-1][$y-1]=$this->turn? 1:2;
         $this->turnCounter+=1;
         $this->WinnerSearcher();
-        $this->turn=!$this->turn;
+        if(!$this->isEnded)$this->turn=!$this->turn;
 
     }
     }
@@ -117,6 +119,29 @@ class game
 					$end = $this->conclusionSentence;
 					echo "<h1>$end</h1>";
 				}
+    }
+
+    public function UpdateWinCounter(){
+
+        if($this->isEnded&&!$this->isUpdated){
+        $this->isUpdated=true;
+        $this->incrementWinCounter();
+        }
+        $win_number=$_SESSION['win'];
+        echo "<h1>Circle $win_number Cross</h1>";
+    }
+
+    public function incrementWinCounter(){
+
+        $gameData=explode(":",$_SESSION['win']);
+
+        if($this->turn){
+            $gameData[0]=(int)$gameData[0]+1;
+        }
+        else{
+            $gameData[1]=(int)$gameData[1]+1;
+        }
+        $_SESSION['win']=$gameData[0].":".$gameData[1];
     }
 
     public function GetCurrentTurn(){
