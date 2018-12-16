@@ -45,36 +45,59 @@ $_SESSION['game'] = $game;
 
     <style type="text/css">
 
-        BODY {
-
-            margin: 0;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin-right: -50%;
-            transform: translate(-50%, -50%)
-
+        body {
+            font-family: Arial;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-        TD {
-            padding: 3px;
+
+        #board {
+            margin: 30px 0 30px 0;
+            border-collapse: collapse;
+        }
+
+        td {
             border: 1px solid black;
-            width: 200px;
-            height: 200px;
+            width: 22vh;
+            height: 22vh;
             text-align: center;
         }
+
+        td span {
+            font-size: 13vh;
+        }
+
+        /* убираем внешние границы*/
+        td:first-of-type {
+            border-left-color: transparent;
+            border-top-color: transparent;
+        }
+        td:nth-of-type(2) {
+            border-top-color: transparent;
+        }
+        td:nth-of-type(3) {
+            border-right-color: transparent;
+            border-top-color: transparent;
+        }
+        tr:nth-of-type(3) td {
+            border-bottom-color: transparent;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
         input{
             margin-right: 10px;
         }
-        Tcross {
 
-        }
-        Tcircle {
-
-        }
     </style>
 
 </head>
 <body>
+<div>
 
 <?php
 //Получили размер поля
@@ -84,9 +107,9 @@ $gameField=$game->GetGameField();
 
 $userHint=$game->GetCurrentTurn();
 
-echo "<a>$userHint</a>";
+echo "<h1>$userHint</h1>";
 
-echo '<table>';
+echo '<table id="board">';
 
 for ($i=0;$i<$tableSize;$i++){
 
@@ -95,10 +118,10 @@ for ($i=0;$i<$tableSize;$i++){
     for ($j=0;$j<$tableSize;$j++){
         $result="";
         if($gameField[$i][$j]==2){
-            $result = "<Tcross>КРЕСТ</Tcross>";
+            $result = "<span>X</span>";
         }
         if($gameField[$i][$j]==1){
-            $result = "<Tcircle>НОЛЬ</Tcircle>";
+            $result = "<span>O</span>";
         }
         echo "<td>$result</td>";
     }
@@ -106,15 +129,16 @@ for ($i=0;$i<$tableSize;$i++){
 }
 
 echo '</table>';
-echo '<form action="index.php?action=move" method="post">';
-echo '<input type="text" name="row" id="row" placeholder="Row">';
-echo '<input type="text" name="column" id="column" placeholder="Column" >';
-echo '<input type="submit" value="Make turn">';
-echo '</form>';
-echo '<p>';
-echo '<br/><a href="?action=Restart">Restart</a>';
 ?>
 
+<form action="index.php?action=move" method="post">
+<input type="text" name="row" id="row" placeholder="Row">
+<input type="text" name="column" id="column" placeholder="Column" >
+<input type="submit" value="Make turn">
+</form>
+<a href="?action=Restart">Restart</a>
+
+</div>
 </body>
 
 </html>
