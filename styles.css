@@ -1,0 +1,86 @@
+
+.container {
+    font-family: Arial;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#board {
+    margin: 30px 0 30px 0;
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid black;
+    width: 22vh;
+    height: 22vh;
+    text-align: center;
+}
+
+td span {
+    font-size: 13vh;
+}
+
+/* убираем внешние границы*/
+td:first-of-type {
+    border-left-color: transparent;
+    border-top-color: transparent;
+}
+td:nth-of-type(2) {
+    border-top-color: transparent;
+}
+td:nth-of-type(3) {
+    border-right-color: transparent;
+    border-top-color: transparent;
+}
+tr:nth-of-type(3) td {
+    border-bottom-color: transparent;
+}
+
+h1 {
+    text-align: center;
+}
+
+input{
+    margin-right: 10px;
+}
+
+.finished {
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-size: 100% 100%, auto;
+}
+.left_diag {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 102 100'><path d='M1 0 L0 1 L99 100 L100 99' fill='black' /></svg>");
+}
+
+.right_diag {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 102 100'><path d='M0 99 L99 0 L100 1 L1 100' fill='black' /></svg>");
+}
+
+.first_column {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 150'><path d='M25 0 L25 150' stroke='black' stroke-width='1' /></svg>");
+}
+
+.second_column {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 150'><path d='M75 0 L75 150' stroke='black' stroke-width='1' /></svg>");
+}
+
+.third_column {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 150'><path d='M125 0 L125 150' stroke='black' stroke-width='1' /></svg>");
+}
+
+.first_row {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 150'><path d='M0 24 L150 24' stroke='black' stroke-width='1' /></svg>");
+}
+
+.second_row {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 150'><path d='M0 74 L150 74' stroke='black' stroke-width='1' /></svg>");
+}
+
+.third_row {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 150'><path d='M0 124 L150 124' stroke='black' stroke-width='1' /></svg>");
+}
+

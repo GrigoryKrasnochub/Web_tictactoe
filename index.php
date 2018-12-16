@@ -21,82 +21,23 @@ if(isset($params['action'])) {
         // Обрабатываем ход пользователя.
         $game->MakeTurn((int)$params['row'], (int)$params['column']);
 
-    } else if($action == 'Restart') {
+    } else if($action == 'restart') {
         // Пользователь решил начать новую игру.
         $game = new game();
     }
 }
-
 //Записали в сессию
 $_SESSION['game'] = $game;
-
-
-
-
-
 ?>
-
 
 <html lang="eng">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
     <title>TicTacToe</title>
-
-    <style type="text/css">
-
-        body {
-            font-family: Arial;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #board {
-            margin: 30px 0 30px 0;
-            border-collapse: collapse;
-        }
-
-        td {
-            border: 1px solid black;
-            width: 22vh;
-            height: 22vh;
-            text-align: center;
-        }
-
-        td span {
-            font-size: 13vh;
-        }
-
-        /* убираем внешние границы*/
-        td:first-of-type {
-            border-left-color: transparent;
-            border-top-color: transparent;
-        }
-        td:nth-of-type(2) {
-            border-top-color: transparent;
-        }
-        td:nth-of-type(3) {
-            border-right-color: transparent;
-            border-top-color: transparent;
-        }
-        tr:nth-of-type(3) td {
-            border-bottom-color: transparent;
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        input{
-            margin-right: 10px;
-        }
-
-    </style>
-
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+<div class="container">
 <div>
 
 <?php
@@ -127,7 +68,6 @@ for ($i=0;$i<$tableSize;$i++){
     }
     echo '</tr>';
 }
-
 echo '</table>';
 ?>
 
@@ -136,8 +76,9 @@ echo '</table>';
 <input type="text" name="column" id="column" placeholder="Column" >
 <input type="submit" value="Make turn">
 </form>
-<a href="?action=Restart">Restart</a>
+<a href="?action=restart">Restart</a>
 
+</div>
 </div>
 </body>
 
