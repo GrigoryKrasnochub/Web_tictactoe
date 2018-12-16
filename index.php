@@ -1,8 +1,47 @@
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<?php
+//Подключили класс
+require_once(dirname(__FILE__) . '/game.php');
 
-    <title>��������-������</title>
+//Выгрузили сессию
+session_start();
+
+//Присвоили переменной экземпляр
+$game = isset($_SESSION['game'])? $_SESSION['game']: null;
+
+//Сделали экземпляр, если в сессии было пусто
+if(!$game || !is_object($game)) {
+    $game = new game();
+}
+//Обрабатываем запросы
+$params = $_GET + $_POST;
+if(isset($params['action'])) {
+    $action = $params['action'];
+
+    if($action == 'move') {
+        // Обрабатываем ход пользователя.
+        $game->MakeTurn((int)$params['row'], (int)$params['column']);
+
+    } else if($action == 'Restart') {
+        // Пользователь решил начать новую игру.
+        $game = new game();
+    }
+}
+
+//Записали в сессию
+$_SESSION['game'] = $game;
+
+
+
+
+
+?>
+
+
+<html lang="eng">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title>TicTacToe</title>
 
     <style type="text/css">
 
@@ -17,7 +56,7 @@
 
         }
         TD {
-            padding: 3px; /* ���� ������ ����������� ������� */
+            padding: 3px;
             border: 1px solid black;
             width: 200px;
             height: 200px;
@@ -26,7 +65,10 @@
         input{
             margin-right: 10px;
         }
-        TR {
+        Tcross {
+
+        }
+        Tcircle {
 
         }
     </style>
@@ -35,8 +77,14 @@
 <body>
 
 <?php
+//Получили размер поля
+$tableSize=$game->GetFieldSize();
+//Получили заполненное игровое полк
+$gameField=$game->GetGameField();
 
-$tableSize=3;
+$userHint=$game->GetCurrentTurn();
+
+echo "<a>$userHint</a>";
 
 echo '<table>';
 
@@ -45,22 +93,26 @@ for ($i=0;$i<$tableSize;$i++){
     echo '<tr>';
 
     for ($j=0;$j<$tableSize;$j++){
-
-        echo "<td>$i*$j</td>";
+        $result="";
+        if($gameField[$i][$j]==2){
+            $result = "<Tcross>КРЕСТ</Tcross>";
+        }
+        if($gameField[$i][$j]==1){
+            $result = "<Tcircle>НОЛЬ</Tcircle>";
+        }
+        echo "<td>$result</td>";
     }
     echo '</tr>';
 }
 
 echo '</table>';
-echo '<form action="cross.php" method="get">';
+echo '<form action="index.php?action=move" method="post">';
 echo '<input type="text" name="row" id="row" placeholder="Row">';
 echo '<input type="text" name="column" id="column" placeholder="Column" >';
 echo '<input type="submit" value="Make turn">';
 echo '</form>';
 echo '<p>';
-echo '<form action="cross.php" method="get">';
-echo '<input type="submit" name="Restart" value="Restart">';
-echo '</form>';
+echo '<br/><a href="?action=Restart">Restart</a>';
 ?>
 
 </body>
