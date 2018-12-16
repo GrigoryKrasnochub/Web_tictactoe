@@ -17,7 +17,6 @@ if(!$game || !is_object($game)) {
 
 //Экземпляр SQL-ки
 $sql=isset($sql)?$sql:new sql();
-
 //Обрабатываем запросы
 $params = $_GET + $_POST;
 if(isset($params['action'])) {
@@ -29,8 +28,8 @@ if(isset($params['action'])) {
 
     } else if($action == 'restart') {
         // Пользователь решил начать новую игру.
+        $sql->DeleteTurnOfEndedSession($game->GetGameId());
         $game = new game();
-        $sql->DeleteTurnOfEndedSession(1);
     }
     if($action =='reset_score'){
         //сброс счета

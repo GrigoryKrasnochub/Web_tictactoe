@@ -22,14 +22,23 @@ class game
     private $isUpdated=false;
     //sql
     private $sql;
+    //id
+    private $gameId;
+
+    public function __construct()
+    {
+        $this->sql=isset($this->sql)?$this->sql:new sql();
+        $this->gameId=com_create_guid();
+        $this->sql->setRegUser($this->gameId);
+    }
 
     //Делаем ход пользователя
     public function MakeTurn ($x,$y){
     if (!$this->isEnded && $x<=$this->fieldSize && $x>0&& $y<=$this->fieldSize && $y>0 && empty($this->gameField [$x-1][$y-1])){
         $this->gameField [$x-1][$y-1]=$this->turn? 1:2;
         $this->turnCounter+=1;
-        $this->sql=isset($this->sql)?$this->sql:new sql();
-        $this->sql->AddTurn($x,$y,$this->turn,1);
+
+        $this->sql->AddTurn($x,$y,$this->turn,$this->gameId);
         $this->WinnerSearcher();
         if(!$this->isEnded)$this->turn=!$this->turn;
 
@@ -107,6 +116,8 @@ class game
         //Ничья
         if(!$this->isEnded && $this->turnCounter==$this->fieldSize*$this->fieldSize){
             $this->isEnded=true;
+            //чтобы счетчик не увеличился
+            $this->isUpdated=true;
             $this->conclusionSentence="Game Over";
         }
     }
@@ -125,6 +136,7 @@ class game
         $this->incrementWinCounter();
         }
         $win_number=$_SESSION['win'];
+        $this->sql->AddWin($this->gameId,$win_number);
         echo "<h1>Circle $win_number Cross</h1>";
     }
 
@@ -148,5 +160,6 @@ class game
 
     public function GetFieldSize() {return $this->fieldSize;}
     public function GetGameField() {return $this->gameField;}
+    public function GetGameId() {return $this->gameId;}
     public function GetСrossStyle() {return $this->crossStyle;}
 }

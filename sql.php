@@ -40,7 +40,7 @@ public function AddTurn($x,$y,$turn,$gameId){
 
 public function DeleteTurnOfEndedSession($gameId){
     $this->CreateConnection();
-    $sql = "DELETE FROM game_data WHERE  game_id=$gameId";
+    $sql = "DELETE FROM game_data WHERE  game_id=('$gameId')";
     if (mysqli_query($this->connection, $sql)) {
         // echo "New record created successfully";
     } else {
@@ -51,7 +51,7 @@ public function DeleteTurnOfEndedSession($gameId){
 
 public function AddWin($gameId,$win){
     $this->CreateConnection();
-    $sql = "UPDATE user SET win=$win WHERE  game_id=$gameId";
+    $sql = "UPDATE users SET win='$win' WHERE  game_id=('$gameId')";
     if (mysqli_query($this->connection, $sql)) {
         // echo "New record created successfully";
     } else {
@@ -59,5 +59,29 @@ public function AddWin($gameId,$win){
     }
     mysqli_close($this->connection);
 }
+/*
+public function getGameId(){
+    $this->CreateConnection();
+    $sql = "SELECT game_id FROM users ORDER BY game_id DESC LIMIT 1";
+    $result = mysqli_query($this->connection, $sql);
+    $result=(int)$result->fetch_row();
+    mysqli_close($this->connection);
+    echo ((int)$result+1);
+    return ((int)$result+1);
+
+}
+*/
+    public function setRegUser($gameId){
+        $this->CreateConnection();
+        $sql = "INSERT INTO users (game_id) VALUES ('$gameId')";
+        if (mysqli_query($this->connection, $sql)) {
+            // echo "New record created successfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($this->connection);
+        }
+        mysqli_close($this->connection);
+
+    }
+
 
 }
