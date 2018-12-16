@@ -1,6 +1,7 @@
 <?php
 //Подключили класс
 require_once(dirname(__FILE__) . '/game.php');
+require_once(dirname(__FILE__) . '/sql.php');
 
 //Выгрузили сессию
 session_start();
@@ -13,6 +14,10 @@ $win_number = isset($_SESSION['win'])? $_SESSION['win']: "0:0";
 if(!$game || !is_object($game)) {
     $game = new game();
 }
+
+//Экземпляр SQL-ки
+$sql=isset($sql)?$sql:new sql();
+
 //Обрабатываем запросы
 $params = $_GET + $_POST;
 if(isset($params['action'])) {
@@ -25,6 +30,7 @@ if(isset($params['action'])) {
     } else if($action == 'restart') {
         // Пользователь решил начать новую игру.
         $game = new game();
+        $sql->DeleteTurnOfEndedSession(1);
     }
     if($action =='reset_score'){
         //сброс счета
@@ -52,9 +58,11 @@ $_SESSION['win'] = $win_number;
 $tableSize=$game->GetFieldSize();
 //Получили заполненное игровое поле
 $gameField=$game->GetGameField();
-
+//Кто ходит
 $userHint=$game->GetCurrentTurn();
+//Показили счетчик
 $game->UpdateWinCounter();
+//Показали победителя
 $game->ShowWinner();
 echo "<h1>$userHint</h1>";
 

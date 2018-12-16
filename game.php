@@ -1,11 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Grishka_adminishka
- * Date: 16.12.2018
- * Time: 10:26
- */
-
+require_once(dirname(__FILE__) . '/sql.php');
 class game
 {
     //Размер поля
@@ -26,13 +20,16 @@ class game
     private  $crossStyle;
     // Был ли счетчик обновлен
     private $isUpdated=false;
-
+    //sql
+    private $sql;
 
     //Делаем ход пользователя
     public function MakeTurn ($x,$y){
     if (!$this->isEnded && $x<=$this->fieldSize && $x>0&& $y<=$this->fieldSize && $y>0 && empty($this->gameField [$x-1][$y-1])){
         $this->gameField [$x-1][$y-1]=$this->turn? 1:2;
         $this->turnCounter+=1;
+        $this->sql=isset($this->sql)?$this->sql:new sql();
+        $this->sql->AddTurn($x,$y,$this->turn,1);
         $this->WinnerSearcher();
         if(!$this->isEnded)$this->turn=!$this->turn;
 
