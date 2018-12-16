@@ -43,14 +43,15 @@ $_SESSION['game'] = $game;
 <?php
 //Получили размер поля
 $tableSize=$game->GetFieldSize();
-//Получили заполненное игровое полк
+//Получили заполненное игровое поле
 $gameField=$game->GetGameField();
 
 $userHint=$game->GetCurrentTurn();
 
+$game->ShowWinner();
 echo "<h1>$userHint</h1>";
 
-echo '<table id="board">';
+echo '<table id="board" ' . 'class="finished ' . $game->GetСrossStyle() . '">';
 
 for ($i=0;$i<$tableSize;$i++){
 

@@ -18,14 +18,12 @@ class game
     private $gameField = array();
     //Кол-во для победы
     private $countToWin=3;
-    //Массив с победкой
-    private $winnerCells = array();
-    //Победитель
-    private  $winner;
     //счетчик ходов
     private $turnCounter=0;
     //Сообщение о конце игры
     private  $conclusionSentence;
+    // стиль для зачеркивания
+    private  $crossStyle;
 
 
     //Делаем ход пользователя
@@ -44,6 +42,7 @@ class game
     private function WinnerSearcher(){
         $winCounter=$this->countToWin;
         $possibleWinner=$this->turn? 1:2;
+        $this->crossStyle = '';
         for ($i=0;$i<$this->fieldSize;$i++){
             for ($j=0;$j<$this->fieldSize;$j++){
                 if($this->gameField [$i][$j]==$possibleWinner){
@@ -55,7 +54,8 @@ class game
                        }
                        if($winCounter==0){
                            $this->isEnded=true;
-                       }
+												 $this->crossStyle = 'column_' . ($j+1);
+											 }
                    }
                     $winCounter=$this->countToWin;
                    //горизонталь
@@ -65,10 +65,11 @@ class game
                         }
                         if($winCounter==0){
                             $this->isEnded=true;
+													$this->crossStyle = 'row_' . ($i+1);
                         }
                     }
                     $winCounter=$this->countToWin;
-                    //диагональ по прямому слэшу
+                    //диагональ по прямому слэшу \
                     try {
                         for ($q = 0; $q < $this->fieldSize; $q++) {
                             if ($this->gameField [$i - $q][$j - $q] == $possibleWinner) {
@@ -76,11 +77,12 @@ class game
                             }
                             if ($winCounter == 0) {
                                 $this->isEnded = true;
-                            }
+																$this->crossStyle = 'left_diag';
+														}
                         }
                     }catch(Exception $e){}
                     $winCounter=$this->countToWin;
-                    //диагональ по обратному слэшу
+                    //диагональ по обратному слэшу /
                     try {
                     for($q=0;$q<$this->fieldSize;$q++){
                         if ($this->gameField [$i+$q][$j-$q]==$possibleWinner){
@@ -88,6 +90,7 @@ class game
                         }
                         if($winCounter==0){
                             $this->isEnded=true;
+                            $this->crossStyle = 'right_diag';
                         }
                     }
                     }catch(Exception $e){}
@@ -100,21 +103,20 @@ class game
 
         if($this->isEnded){
             $whoIsWin=$this->turn? "Circles":"Cross";
-            $this->conclusionSentence="Winer is ".$whoIsWin;
+            $this->conclusionSentence="Winner is ".$whoIsWin;
         }
         //Ничья
         if(!$this->isEnded && $this->turnCounter==$this->fieldSize*$this->fieldSize){
             $this->isEnded=true;
             $this->conclusionSentence="Game Over";
         }
-        if($this->isEnded){
-            $this->ShowWinner();
-        }
     }
 
-    private function ShowWinner(){
-        $end = $this->conclusionSentence;
-        echo "<b>$end</b>";
+    public function ShowWinner(){
+        if ($this->isEnded) {
+					$end = $this->conclusionSentence;
+					echo "<h1>$end</h1>";
+				}
     }
 
     public function GetCurrentTurn(){
@@ -124,4 +126,5 @@ class game
 
     public function GetFieldSize() {return $this->fieldSize;}
     public function GetGameField() {return $this->gameField;}
+    public function GetСrossStyle() {return $this->crossStyle;}
 }
