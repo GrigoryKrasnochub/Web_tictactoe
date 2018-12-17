@@ -28,7 +28,7 @@ if(isset($params['action'])) {
 
     } else if($action == 'restart') {
         // Пользователь решил начать новую игру.
-        $sql->DeleteTurnOfEndedSession($game->GetGameId());
+        //$sql->DeleteTurnOfEndedSession($game->GetGameId());
         $game = new game();
     }
     if($action =='reset_score'){

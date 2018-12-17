@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `game_data` (
   `turn` int(11) DEFAULT NULL,
   `turn_place` tinytext,
   PRIMARY KEY (`primary_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
 -- Экспортируемые данные не выделены.
 -- Дамп структуры для таблица university_lab.rss_feed
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `game_id` text,
   `win` text NOT NULL,
   PRIMARY KEY (`primary_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 -- Экспортируемые данные не выделены.
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

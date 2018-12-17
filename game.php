@@ -28,7 +28,7 @@ class game
     public function __construct()
     {
         $this->sql=isset($this->sql)?$this->sql:new sql();
-        $this->gameId=com_create_guid();
+        $this->gameId=$this->getGUID();
         $this->sql->setRegUser($this->gameId);
     }
 
@@ -45,6 +45,24 @@ class game
     }
     }
 
+   private function getGUID(){
+        if (function_exists('com_create_guid')){
+            return com_create_guid();
+        }
+        else {
+            mt_srand((double)microtime()*10000);//optional for php 4.2.0 and up.
+            $charid = strtoupper(md5(uniqid(rand(), true)));
+            $hyphen = chr(45);// "-"
+            $uuid = chr(123)// "{"
+                .substr($charid, 0, 8).$hyphen
+                .substr($charid, 8, 4).$hyphen
+                .substr($charid,12, 4).$hyphen
+                .substr($charid,16, 4).$hyphen
+                .substr($charid,20,12)
+                .chr(125);// "}"
+            return $uuid;
+        }
+    }
 
     //Господа, я снимаю с себя всякую ответственность, я не знаю зачем я это написал, объявляю себя королем костылей! СЛАВА КОРОЛЮ СЛАВА КОРОЛЮ (С)Григорий Красночуб :3
     private function WinnerSearcher(){
